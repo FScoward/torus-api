@@ -1,17 +1,23 @@
 name := """torus-api"""
-organization := "fscoward"
 
-version := "1.0-SNAPSHOT"
+lazy val commonSettings = Seq(
+  organization := "fscoward",
+  version := "1.0-SNAPSHOT",
+  scalaVersion := "2.12.6"
+)
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
 lazy val torusApp = (project in file("torus-app")).enablePlugins(PlayScala)
-    .settings(dependencies)
+  .settings(commonSettings, dependencies)
+  .dependsOn(torusDomain)
 
-scalaVersion := "2.12.6"
+lazy val torusDomain = (project in file("torus-domain"))
+  .settings(commonSettings)
 
-libraryDependencies += guice
-libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
+
+//libraryDependencies += guice
+//libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 
 val dependencies = libraryDependencies ++= Seq(
   guice,
